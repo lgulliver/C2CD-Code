@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  winestoreweb:
+    image: winestoreweb
+    build:
+      context: ./WineStoreWeb
+      dockerfile: Dockerfile
+
+  winestoreapi:
+    image: winestoreapi
+    build:
+      context: ./WineStoreApi
+      dockerfile: Dockerfile
+
+  winestoreorderprocessor:
+    image: winestoreorderprocessor
+    build:
+      context: ./WineStoreOrderProcessor
+      dockerfile: Dockerfile
