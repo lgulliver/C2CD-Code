@@ -12,11 +12,14 @@ namespace WineStoreWeb.Controllers
     {
         public IActionResult Index()
         {
+            ViewData["CartItems"] = "0";
+
             return View();
         }
 
         public IActionResult About()
         {
+            ViewData["CartItems"] = "0";
             ViewData["Message"] = "Your application description page.";
 
             return View();
@@ -24,6 +27,7 @@ namespace WineStoreWeb.Controllers
 
         public IActionResult Contact()
         {
+            ViewData["CartItems"] = "0";
             ViewData["Message"] = "Your contact page.";
 
             return View();

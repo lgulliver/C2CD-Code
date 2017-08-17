@@ -12,9 +12,3 @@ services:
     build:
       context: ./WineStoreApi
       dockerfile: Dockerfile
-
-  winestoreorderprocessor:
-    image: winestoreorderprocessor
-    build:
-      context: ./WineStoreOrderProcessor
-      dockerfile: Dockerfile
