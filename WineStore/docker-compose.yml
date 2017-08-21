@@ -18,3 +18,9 @@ services:
     build:
       context: ./../WinStoreInventory
       dockerfile: Dockerfile
+
+  winestoretrolley:
+    image: winestoretrolley
+    build:
+      context: ./WineStoreTrolley
+      dockerfile: Dockerfile
