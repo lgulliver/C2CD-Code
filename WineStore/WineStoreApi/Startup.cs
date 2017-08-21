@@ -15,7 +15,7 @@ namespace WineStoreApi
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            Configuration = new ConfigurationBuilder().AddUserSecrets<Startup>().Build();
         }
 
         public IConfiguration Configuration { get; }
