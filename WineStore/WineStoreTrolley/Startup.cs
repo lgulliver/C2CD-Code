@@ -15,7 +15,11 @@ namespace WineStoreTrolley
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            Configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddUserSecrets<Startup>()
+                .AddEnvironmentVariables()
+                .Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -24,6 +28,7 @@ namespace WineStoreTrolley
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.Configure<APIOptions>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

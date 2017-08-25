@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using WineStoreWeb.Models;
 
 namespace WineStoreWeb.Controllers
 {
@@ -10,7 +11,7 @@ namespace WineStoreWeb.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return View(new StoreViewModel());
         }
     }
 }

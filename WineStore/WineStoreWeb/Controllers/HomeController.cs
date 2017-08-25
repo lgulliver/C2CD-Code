@@ -5,21 +5,27 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WineStoreWeb.Models;
+using WineStoreWeb.Data;
+using Microsoft.Extensions.Options;
 
 namespace WineStoreWeb.Controllers
 {
     public class HomeController : Controller
     {
+        public HomeController()
+        {
+        }
+
         public IActionResult Index()
         {
-            ViewData["CartItems"] = "0";
-
+            ViewData["CartItems"] = TrolleyProxy.GetInstance().GetCurrentNumberOfItems(HttpContext.Session.Id.ToString());
+            
             return View();
         }
 
         public IActionResult About()
         {
-            ViewData["CartItems"] = "0";
+            ViewData["CartItems"] = TrolleyProxy.GetInstance().GetCurrentNumberOfItems(HttpContext.Session.Id.ToString());
             ViewData["Message"] = "Your application description page.";
 
             return View();
@@ -27,7 +33,7 @@ namespace WineStoreWeb.Controllers
 
         public IActionResult Contact()
         {
-            ViewData["CartItems"] = "0";
+            ViewData["CartItems"] = TrolleyProxy.GetInstance().GetCurrentNumberOfItems(HttpContext.Session.Id.ToString());
             ViewData["Message"] = "Your contact page.";
 
             return View();
