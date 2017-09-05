@@ -9,7 +9,7 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WineStoreApi", "WineStoreApi\WineStoreApi.csproj", "{4CBB868B-07AA-4ED9-B5D0-CD562E22E85B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinStoreInventory", "..\WinStoreInventory\WinStoreInventory.csproj", "{63B93678-E86F-4AA5-9485-221C40DAB654}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinStoreInventory", "WinStoreInventory\WinStoreInventory.csproj", "{63B93678-E86F-4AA5-9485-221C40DAB654}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WineStoreTrolley", "WineStoreTrolley\WineStoreTrolley.csproj", "{AA5FBC94-EC21-4F49-B493-B5889A85A3E8}"
 EndProject
