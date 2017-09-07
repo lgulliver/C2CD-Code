@@ -2,24 +2,37 @@
 @model WineStoreWeb.Models.StoreViewModel
 
 @{
-    ViewData["Title"] = "About";
+    ViewData["Title"] = "Store";
 }
 <h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
 
 <table>
 @foreach(WineItem wine in Model.WinesToDisplay) {
 	<tr>
-    <td><img src="@wine.WinePicture" alt="@wine.WineType:@wine.WineId"width="200" /></td>
+    <td><img src="@wine.WinePicture" alt="@wine.WineType:@wine.WineId" width="200" /></td>
     <td><p> @Html.DisplayFor(item => wine.WineName) </p></td>
     <td><p> @Html.DisplayFor(item => wine.WineInfo) </p></td>
-	@if(wine.WineInStock > 0) {
-        <td><p><b>In Stock</b></p></td>    
-	} else {
-        <td><p><i>Out of stock</i></p></td>
-	}
+		<td width="150">
+			<p>&#163; @wine.WinePrice</p>
+        	@if(wine.WineInStock > 0) {
+                <p><b>In Stock</b></p>  
+			    <p><a href="javascript:AddToTrolley('@wine.WineType:@wine.WineId')">Add to Trolley</a></p>
+        	} else {
+                <p><i>Out of stock</i></p>
+        	}
+			
+
+		</td>
 	</tr>
 }
 </table>
 
 <p>Use this area to provide additional information.</p>
+
+<script language="javascript" type="text/javascript" >
+     
+    function AddToTrolley(typeAndId) {
+	    alert(typeAndId);
+	}
+ 
+</script>
