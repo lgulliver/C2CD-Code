@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using WineStoreShared;
 
 namespace WineStoreWeb.Data
 {
@@ -23,6 +26,22 @@ namespace WineStoreWeb.Data
             }
 
             return (InventoryProxy) _instance;
+        }
+
+        public Dictionary<string, WineItem> GetInventory() {
+            HttpClient client = new HttpClient();
+
+            var content = JsonConvert.SerializeObject(new APIPackage { apiKey = this._password });
+            var externalTask = client.PostAsync(this._endpoint + "api/inventory", new StringContent(content, Encoding.UTF8, "application/json"));
+            externalTask.Wait();
+
+
+            var returnedValueTask = externalTask.Result.Content.ReadAsStringAsync(); 
+
+            returnedValueTask.Wait();
+            var returnedValue = returnedValueTask.Result;
+
+            return JsonConvert.DeserializeObject<Dictionary<string, WineItem>>(returnedValue);
         }
 
         public int GetCurrentNumberOfItems()

@@ -18,14 +18,14 @@ namespace WineStoreWeb.Controllers
 
         public IActionResult Index()
         {
-            ViewData["CartItems"] = TrolleyProxy.GetInstance().GetCurrentNumberOfItems(HttpContext.Session.Id.ToString());
+            ViewData["TrolleyItems"] = TrolleyProxy.GetInstance().GetCurrentNumberOfItems(HttpContext.Session.Id.ToString());
             
             return View();
         }
 
         public IActionResult About()
         {
-            ViewData["CartItems"] = TrolleyProxy.GetInstance().GetCurrentNumberOfItems(HttpContext.Session.Id.ToString());
+            ViewData["TrolleyItems"] = TrolleyProxy.GetInstance().GetCurrentNumberOfItems(HttpContext.Session.Id.ToString());
             ViewData["Message"] = "Your application description page.";
 
             return View();
@@ -33,7 +33,7 @@ namespace WineStoreWeb.Controllers
 
         public IActionResult Contact()
         {
-            ViewData["CartItems"] = TrolleyProxy.GetInstance().GetCurrentNumberOfItems(HttpContext.Session.Id.ToString());
+            ViewData["TrolleyItems"] = TrolleyProxy.GetInstance().GetCurrentNumberOfItems(HttpContext.Session.Id.ToString());
             ViewData["Message"] = "Your contact page.";
 
             return View();

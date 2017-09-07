@@ -13,10 +13,10 @@ services:
       context: ./WineStoreApi
       dockerfile: Dockerfile
 
-  winstoreinventory:
-    image: winstoreinventory
+  winestoreinventory:
+    image: winestoreinventory
     build:
-      context: ./../WinStoreInventory
+      context: ./WineStoreInventory
       dockerfile: Dockerfile
 
   winestoretrolley:

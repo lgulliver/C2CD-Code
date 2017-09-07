@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Table;
+using WineStoreShared;
 
 namespace WineStoreTrolley.Controllers
 {
@@ -22,26 +23,18 @@ namespace WineStoreTrolley.Controllers
 
         // POST api/trolley
         [HttpPost]
-        public string Post([FromBody]string value)
+        public string Post([FromBody]APIPackage package)
         {
-            if (value == null)
-            {
-                HttpContext.Response.StatusCode = 503;
-                return "-1";
-            }
+            var sessionId = package.sessionIdentifier;
+            var apiKey = package.apiKey;
 
-            string sessionId = "";
-            string apiKey = "";
-            if (!value.Contains(";"))
+            if (sessionId == null || apiKey == null)
             {
-                var array = value.Split(";");
-                sessionId = array[0];
-                apiKey = array[1];
+                return "-1";
             }
 
             if (!apiKey.Equals(_options.MyAPIKey))
             {
-                HttpContext.Response.StatusCode = 403;
                 return "-1";
             }
 
@@ -92,4 +85,6 @@ namespace WineStoreTrolley.Controllers
         }
 
     }
+
+
 }

@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Text;
+using Newtonsoft.Json;
+using WineStoreShared;
 
 namespace WineStoreWeb.Data
 {
@@ -23,16 +26,25 @@ namespace WineStoreWeb.Data
                 throw new InvalidOperationException("Singelton not instantiated at app startup.");
             }
 
-            return (TrolleyProxy) _instance;
+            return (TrolleyProxy)_instance;
         }
 
         public int GetCurrentNumberOfItems(string sessionIdentifier)
         {
             HttpClient client = new HttpClient();
 
-            client.PostAsync(this._endpoint + "api/trolley", new StringContent(sessionIdentifier + ";" + this._password)).Wait();
+            var content = JsonConvert.SerializeObject(new APIPackage { sessionIdentifier = sessionIdentifier, apiKey = this._password });
+            var externalTask = client.PostAsync(this._endpoint + "api/trolley", new StringContent(content, Encoding.UTF8, "application/json"));
+            externalTask.Wait();
 
-            return 0;
+            var returnedValueTask = externalTask.Result.Content.ReadAsStringAsync();
+            returnedValueTask.Wait();
+            var returnedValue = returnedValueTask.Result;
+
+            return int.Parse(returnedValue);
         }
+
     }
+
+
 }

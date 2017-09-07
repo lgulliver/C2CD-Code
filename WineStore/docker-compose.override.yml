@@ -13,7 +13,7 @@ services:
     ports:
       - "17500:80"
 
-  winstoreinventory:
+  winestoreinventory:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:

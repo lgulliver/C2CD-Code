@@ -8,14 +8,18 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using WineStoreShared;
 
-namespace WinStoreInventory
+namespace WineStoreInventory
 {
     public class Startup
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = new ConfigurationBuilder().AddUserSecrets<Startup>().Build();
+            Configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables()
+                .Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -24,6 +28,9 @@ namespace WinStoreInventory
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddOptions();
+            services.Configure<APIOptions>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using WineStoreShared;
 
 namespace WineStoreTrolley
 {
@@ -17,7 +18,6 @@ namespace WineStoreTrolley
         {
             Configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddUserSecrets<Startup>()
                 .AddEnvironmentVariables()
                 .Build();
         }
@@ -27,7 +27,10 @@ namespace WineStoreTrolley
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
             services.AddMvc();
+
+            services.AddOptions();
             services.Configure<APIOptions>(Configuration);
         }
 
