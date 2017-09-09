@@ -8,7 +8,7 @@ namespace WineStoreWeb.Models
 {
     public class TrolleyViewModel
     {
-        private Dictionary<WineItem, int> trolleyItemsToDisplay;
+        private Dictionary<WineItem, int> trolleyItemsToDisplay = new Dictionary<WineItem, int>();
 
         public void AddTrolleyItemToDisplay(WineItem wineItem, int amount)
         {

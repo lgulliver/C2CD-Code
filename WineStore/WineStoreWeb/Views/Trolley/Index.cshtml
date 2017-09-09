@@ -1,29 +1,33 @@
-﻿@using WineStoreShare
+﻿@using WineStoreShared
 @model WineStoreWeb.Models.TrolleyViewModel
 @{
-    ViewData["Title"] = "About";
+    ViewData["Title"] = "Your trolley with " + ViewData["TrolleyItems"] + " items";
 }
 <h2>@ViewData["Title"]</h2>
 
-<table>
-@foreach(WineItem wine in Model.TrolleyItemsToDisplay.Keys) {
-    <tr>
-	<td width="100">@Model.TrolleyItemsToDisplay[wine] x</td>
-    <td><img src="@wine.WinePicture" alt="@wine.WineType:@wine.WineId" width="75" /></td>
-    <td width="300"><p> @Html.DisplayFor(item => wine.WineName) </p></td>
-    <td><p style="font-size: 8pt;"> @Html.DisplayFor(item => wine.WineInfo) </p></td>
-        <td width="150">
-            <p><i>&#163; @wine.WinePrice </i>per item</p>
-            <p><b>&#163; @(Model.TrolleyItemsToDisplay[wine] * wine.WinePrice) </b> in total</p>
-            
+@if(Model.TrolleyItemsToDisplay.Keys.Count > 0) {
+    <table>
+    @foreach(WineItem wine in Model.TrolleyItemsToDisplay.Keys) {
+        <tr>
+    	<td width="100">@Model.TrolleyItemsToDisplay[wine] x</td>
+        <td><img src="@wine.WinePicture" alt="@wine.WineType:@wine.WineId" width="75" /></td>
+        <td width="300"><p> @Html.DisplayFor(item => wine.WineName) </p></td>
+        <td><p style="font-size: 8pt;"> @Html.DisplayFor(item => wine.WineInfo) </p></td>
+            <td width="150">
+                <p><i>&#163; @wine.WinePrice </i>per item</p>
+                <p><b>&#163; @(Model.TrolleyItemsToDisplay[wine] * wine.WinePrice) </b> in total</p>
+                
 
-        </td>
-    </tr>
+            </td>
+        </tr>
+    }
+    </table>
+    <h3>Current Total: &#163; @ViewData["Total"]</h3>
+    <form method="post" action="" target="_top">
+    	<p>Enter your e-mail address to send us your order: <input type="text" name="E-Mail" /></p>
+    	<p><input type="submit" value="Order now" /></p>
+    	<p>Our automated system will confirm your order immediately.</p>
+    </form>
+} else {
+    <p>The trolley is currently empty. Please head to the <b>Store</b> to add items to the trolley.</p>
 }
-</table>
-<h3>Current Total: &#163; @ViewBag["Total"]</h3>
-<form method="post" action="" target="_top">
-	<p>Enter your e-mail address to send us your order: <input type="text" name="E-Mail" /></p>
-	<p><input type="submit" value="Order now" /></p>
-	<p>Our automated system will confirm your order immediately.</p>
-</form>

@@ -8,7 +8,7 @@ namespace WineStoreWeb.Models
 {
     public class StoreViewModel
     {
-        private List<WineItem> winesToDisplay;
+        private List<WineItem> winesToDisplay = new List<WineItem>();
 
         public void AddWineToDisplay(WineItem wineItem)
         {

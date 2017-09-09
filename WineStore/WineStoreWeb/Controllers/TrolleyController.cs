@@ -38,7 +38,7 @@ namespace WineStoreWeb.Controllers
                 total = total + (wine.WinePrice * preDict[key]);
             }
 
-            ViewBag["Total"] = total.ToString();
+            ViewData["Total"] = total.ToString();
 
             return View(trolleyModel);
         }
