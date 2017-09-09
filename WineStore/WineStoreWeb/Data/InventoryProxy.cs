@@ -44,10 +44,22 @@ namespace WineStoreWeb.Data
             return JsonConvert.DeserializeObject<Dictionary<string, WineItem>>(returnedValue);
         }
 
-        public int GetCurrentNumberOfItems()
+        internal WineItem GetInventoryItem(string key)
         {
             HttpClient client = new HttpClient();
-            return 0;
+
+            var content = JsonConvert.SerializeObject(new APIPackage { apiKey = this._password });
+            var externalTask = client.PostAsync(this._endpoint + "api/inventory/" + key, new StringContent(content, Encoding.UTF8, "application/json"));
+            externalTask.Wait();
+
+
+            var returnedValueTask = externalTask.Result.Content.ReadAsStringAsync();
+
+            returnedValueTask.Wait();
+            var returnedValue = returnedValueTask.Result;
+
+            return JsonConvert.DeserializeObject<WineItem>(returnedValue);
         }
+
     }
 }

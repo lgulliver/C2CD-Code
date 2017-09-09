@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WineStoreWeb.Data;
@@ -32,12 +36,12 @@ namespace WineStoreWeb
 
             // Adds a default in-memory implementation of IDistributedCache.
             services.AddDistributedMemoryCache();
-
             services.AddSession(options =>
             {
                 // Set a short timeout for easy testing.
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
-                options.Cookie.Name = "WineStore.Session";
+                options.IdleTimeout = TimeSpan.FromHours(6);
+                options.Cookie.SecurePolicy = CookieSecurePolicy.None;
+                options.Cookie.Name = ".WineStore.Session";
 
                 // disabling this while in test/dev
                 options.Cookie.HttpOnly = true;

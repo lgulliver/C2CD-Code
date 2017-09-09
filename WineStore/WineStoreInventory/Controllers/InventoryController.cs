@@ -43,10 +43,31 @@ namespace WineStoreInventory.Controllers
         }
 
         // GET api/inventory/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpPost("{id}")]
+        public WineItem PostItem(string id, [FromBody]APIPackage package)
         {
-            return null;
+            var sessionId = package.sessionIdentifier;
+            var apiKey = package.apiKey;
+
+            if (apiKey == null)
+            {
+                return null;
+            }
+
+            if (!apiKey.Equals(_options.MyAPIKey))
+            {
+                return null;
+            }
+
+            if(string.IsNullOrWhiteSpace(id)) {
+                return null;
+            }
+
+            if(!id.Contains(":")) {
+                return null;
+            }
+
+            return _broker.GetInventoryItemWithId(id);
         }
     }
 }

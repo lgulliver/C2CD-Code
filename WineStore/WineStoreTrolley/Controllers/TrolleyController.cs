@@ -8,6 +8,7 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Table;
 using WineStoreShared;
+using WineStoreTrolley.Data;
 
 namespace WineStoreTrolley.Controllers
 {
@@ -15,9 +16,11 @@ namespace WineStoreTrolley.Controllers
     public class TrolleyController : Controller
     {
         private readonly APIOptions _options;
+        private TrolleyBroker _broker;
 
         public TrolleyController(IOptions<APIOptions> optionsAccessor)
         {
+            _broker = new TrolleyBroker();
             _options = optionsAccessor.Value;
         }
 
@@ -30,38 +33,42 @@ namespace WineStoreTrolley.Controllers
 
             if (sessionId == null || apiKey == null)
             {
-                return "-1";
+                throw new InvalidOperationException("package invalid.");
             }
 
             if (!apiKey.Equals(_options.MyAPIKey))
             {
-                return "-1";
+                throw new InvalidOperationException("api key not valid.");
             }
 
-            CloudStorageAccount storage = CloudStorageAccount.Parse(_options.StorageConnectionString);
-            CloudTableClient tableClient = storage.CreateCloudTableClient();
-            CloudTable table = tableClient.GetTableReference("trollies");
-            table.CreateIfNotExistsAsync().Wait();
-
-            TableQuery<TableEntity> query = new TableQuery<TableEntity>().Where(TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, sessionId));
-
-            var queryResult = table.ExecuteQuerySegmentedAsync(query, null);
-            queryResult.Wait();
-
-            int parsedInt = 0;
-
-            foreach (var entity in queryResult.Result)
-            {
-                int.TryParse(entity.RowKey, out parsedInt);
-            }
-
-            return parsedInt.ToString();
+            return _broker.GetItemsInTrolley(_options.StorageConnectionString, sessionId);
         }
 
         // PUT api/trolley/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public string Put(string id, [FromBody]APIPackage package)
         {
+            var sessionId = package.sessionIdentifier;
+            var apiKey = package.apiKey;
+            var sessionIdGet = id;
+
+            if (sessionId == null || apiKey == null)
+            {
+                throw new InvalidOperationException("package invalid.");
+            }
+
+            if (!apiKey.Equals(_options.MyAPIKey))
+            {
+                throw new InvalidOperationException("api key not valid.");
+            }
+
+            if (!sessionIdGet.Equals(sessionId)) {
+                throw new InvalidOperationException("session id does not match criteria.");
+            }
+
+            int newNumberOfItems = _broker.ChangeItemInTrolley(_options.StorageConnectionString, sessionId, package.contentItem);
+
+            return newNumberOfItems.ToString();
         }
 
         // DELETE api/trolley/5
@@ -69,21 +76,6 @@ namespace WineStoreTrolley.Controllers
         public void Delete([FromBody]string value)
         {
         }
-    }
-
-    public class TrolleyEntity : TableEntity
-    {
-        public TrolleyEntity(string sessionId, string content)
-        {
-            this.PartitionKey = sessionId;
-            this.RowKey = content;
-        }
-
-        public TrolleyEntity()
-        {
-
-        }
-
     }
 
 

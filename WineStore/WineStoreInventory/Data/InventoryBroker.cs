@@ -58,6 +58,15 @@ namespace WineStoreInventory.Data
             await table.ExecuteAsync(operation);
         }
 
+        internal WineItem GetInventoryItemWithId(string id)
+        {
+            if(!hasInitialised) {
+                throw new InvalidOperationException();
+            }
+
+            return winesInStock[id];
+        }
+
         public Dictionary<string, WineItem> GetCurrentInventory() {
             if(hasInitialised) {
                 return winesInStock;

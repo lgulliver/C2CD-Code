@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using WineStoreWeb.Models;
 using WineStoreWeb.Data;
 using Microsoft.Extensions.Options;
@@ -14,10 +15,13 @@ namespace WineStoreWeb.Controllers
     {
         public HomeController()
         {
+            
         }
 
         public IActionResult Index()
         {
+            HttpContext.Session.SetString("SessionBirthTime", DateTime.Now.ToFileTime().ToString());
+            HttpContext.Session.GetString("SessionBirthTime");
             ViewData["TrolleyItems"] = TrolleyProxy.GetInstance().GetCurrentNumberOfItems(HttpContext.Session.Id.ToString());
             
             return View();
@@ -25,6 +29,7 @@ namespace WineStoreWeb.Controllers
 
         public IActionResult About()
         {
+            HttpContext.Session.GetString("SessionBirthTime");
             ViewData["TrolleyItems"] = TrolleyProxy.GetInstance().GetCurrentNumberOfItems(HttpContext.Session.Id.ToString());
             ViewData["Message"] = "Your application description page.";
 
@@ -33,8 +38,9 @@ namespace WineStoreWeb.Controllers
 
         public IActionResult Contact()
         {
+            HttpContext.Session.GetString("SessionBirthTime");
             ViewData["TrolleyItems"] = TrolleyProxy.GetInstance().GetCurrentNumberOfItems(HttpContext.Session.Id.ToString());
-            ViewData["Message"] = "Your contact page.";
+            ViewData["Message"] = ("Your contact page." + HttpContext.Session.GetString("SessionBirthTime"));
 
             return View();
         }

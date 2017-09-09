@@ -10,14 +10,14 @@
 @foreach(WineItem wine in Model.WinesToDisplay) {
 	<tr>
     <td><img src="@wine.WinePicture" alt="@wine.WineType:@wine.WineId" width="200" /></td>
-    <td><p> @Html.DisplayFor(item => wine.WineName) </p></td>
+    <td width="200"><p> @Html.DisplayFor(item => wine.WineName) </p></td>
     <td><p> @Html.DisplayFor(item => wine.WineInfo) </p></td>
 		<td width="150">
 			<p>&#163; @wine.WinePrice</p>
         	@if(wine.WineInStock > 0) {
                 <p><b>In Stock</b></p>  
 			    <p><a href="javascript:AddToTrolley('@wine.WineType:@wine.WineId')">Add to Trolley</a></p>
-        	} else {
+			} else {
                 <p><i>Out of stock</i></p>
         	}
 			
@@ -27,12 +27,13 @@
 }
 </table>
 
-<p>Use this area to provide additional information.</p>
-
 <script language="javascript" type="text/javascript" >
-     
-    function AddToTrolley(typeAndId) {
-	    alert(typeAndId);
-	}
- 
+
+function AddToTrolley(typeAndIdString) {
+    $.ajax({
+        url: ("/Store/AddToTrolley?typeAndIdString=" + typeAndIdString)})
+	.done(function( data ) {
+        document.getElementById('trolleyItems').innerHTML = data;
+    });
+}
 </script>
