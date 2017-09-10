@@ -100,7 +100,7 @@ namespace WineStoreWeb.Controllers
                 total = total + (wine.WinePrice * preDict[key]);
             }
 
-            ViewData["Total"] = total.ToString();
+            ViewData["Total"] = String.Format("{0:N2}", total);
 
             if ((bool)ViewData["OrderBool"] == false)
             {

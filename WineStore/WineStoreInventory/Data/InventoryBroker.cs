@@ -91,7 +91,6 @@ namespace WineStoreInventory.Data
                 wineItem.WineInStock = wineItem.WineInStock + wineStockChange;
                 var t = UpdateEntityAsync(wineItem, storageConnectionString);
                 changesToMake.Add(t);
-                t.Start();
             }
 
             Task.WaitAll(changesToMake.ToArray());

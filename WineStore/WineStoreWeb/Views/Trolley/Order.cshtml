@@ -7,11 +7,11 @@
 <h2>@ViewData["Title"]</h2>
 
 @if((bool)ViewData["OrderBool"] == true) {
-    <div style="margin: 5px; padding: 5px; background-color: #99ff99; padding-top:10px; padding-bottom:2px">
+    <div style="margin: 5px; padding: 10px; background-color: #99ff99; padding-top:10px; padding-bottom:2px">
 	    <p>@ViewData["OrderResult"]</p>
     </div>
 } else {
-    <div style="margin: 5px; padding: 5px; background-color: #ff9999; padding-top:10px; padding-bottom:2px;">
+    <div style="margin: 5px; padding: 10px; background-color: #ff9999; padding-top:10px; padding-bottom:2px;">
 	    <p>@ViewData["OrderResult"]</p>
     </div>
 }
