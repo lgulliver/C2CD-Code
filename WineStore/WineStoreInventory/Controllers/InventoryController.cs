@@ -42,7 +42,7 @@ namespace WineStoreInventory.Controllers
             return _broker.GetCurrentInventory();
         }
 
-        // GET api/inventory/5
+        // POST api/inventory/5
         [HttpPost("{id}")]
         public WineItem PostItem(string id, [FromBody]APIPackage package)
         {
@@ -68,6 +68,12 @@ namespace WineStoreInventory.Controllers
             }
 
             return _broker.GetInventoryItemWithId(id);
+        }
+
+        // PUT api/inventory
+        public string Put([FromBody]APIPackage package) {
+            
+            return _broker.ChangeStock(package.contentItem, _options.StorageConnectionString);
         }
     }
 }

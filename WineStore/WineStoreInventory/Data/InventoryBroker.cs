@@ -58,6 +58,47 @@ namespace WineStoreInventory.Data
             await table.ExecuteAsync(operation);
         }
 
+        internal string ChangeStock(string contentItem, string storageConnectionString)
+        {
+            if (!hasInitialised)
+            {
+                throw new InvalidOperationException();
+            }
+
+            if(string.IsNullOrWhiteSpace(contentItem)) {
+                throw new InvalidOperationException("instruction string not provided.");
+            }
+
+            if(!contentItem.Contains(";")) {
+                throw new InvalidOperationException("string format not correct");
+            }
+
+            var contentArray = contentItem.Split(";");
+            var changesToMake = new List<Task>();
+
+            foreach(var stockItem in contentArray) {
+                var stockArray = stockItem.Split(":");
+
+                if(stockArray.Length != 3) {
+                    continue;
+                }
+
+                var wineType = stockArray[0];
+                var wineId = stockArray[1];
+                var wineStockChange = int.Parse(stockArray[2]);
+
+                var wineItem = GetInventoryItemWithId(stockArray[0] + ":" + stockArray[1]);
+                wineItem.WineInStock = wineItem.WineInStock + wineStockChange;
+                var t = UpdateEntityAsync(wineItem, storageConnectionString);
+                changesToMake.Add(t);
+                t.Start();
+            }
+
+            Task.WaitAll(changesToMake.ToArray());
+
+            return "DONE!";
+        }
+
         internal WineItem GetInventoryItemWithId(string id)
         {
             if(!hasInitialised) {

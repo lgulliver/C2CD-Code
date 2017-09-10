@@ -72,9 +72,10 @@ namespace WineStoreTrolley.Controllers
         }
 
         // DELETE api/trolley/5
-        [HttpDelete]
-        public void Delete([FromBody]string value)
+        [HttpDelete("{id}")]
+        public void Delete(string id)
         {
+            _broker.EmptyTrolley(_options.StorageConnectionString, id);
         }
     }
 
