@@ -72,13 +72,13 @@ namespace WineStoreWeb
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            var trolleyAPI = Configuration.GetSection("Endpoints:TrolleyAPI").Value;
-            var inventoryAPI = Configuration.GetSection("Endpoints:InventoryAPI").Value;
-            var purchaseAPI = Configuration.GetSection("Endpoints:PurchaseAPI").Value;
+            var trolleyAPI = Configuration.GetSection("TrolleyAPI").Value;
+            var inventoryAPI = Configuration.GetSection("InventoryAPI").Value;
+            var purchaseAPI = Configuration.GetSection("PurchaseAPI").Value;
 
-            var trolleyAPIKey = Configuration.GetSection("Keys:TrolleyAPIKey").Value;
-            var inventoryAPIKey = Configuration.GetSection("Keys:InventoryAPIKey").Value;
-            var purchaseAPIKey = Configuration.GetSection("Keys:PurchaseAPIKey").Value;
+            var trolleyAPIKey = Configuration.GetSection("TrolleyAPIKey").Value;
+            var inventoryAPIKey = Configuration.GetSection("InventoryAPIKey").Value;
+            var purchaseAPIKey = Configuration.GetSection("PurchaseAPIKey").Value;
 
             new TrolleyProxy(trolleyAPI, trolleyAPIKey);
             new InventoryProxy(inventoryAPI, inventoryAPIKey);
