@@ -40,7 +40,7 @@ namespace WineStoreWeb.Controllers
         {
             HttpContext.Session.GetString("SessionBirthTime");
             ViewData["TrolleyItems"] = TrolleyProxy.GetInstance().GetCurrentNumberOfItems(HttpContext.Session.Id.ToString());
-            ViewData["Message"] = ("Your contact page." + HttpContext.Session.GetString("SessionBirthTime"));
+            ViewData["Message"] = ("There are many way for you to get in touch...");
 
             return View();
         }
