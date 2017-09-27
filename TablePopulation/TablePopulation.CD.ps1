@@ -1,15 +1,12 @@
 param (
   [Parameter(Mandatory = $true)]
-  [string]$StorageAccountName = "dansinventorytest",
-  
+  [string]$StorageAccountName,
+
   [Parameter(Mandatory = $true)]
-  [string]$ResourceGroupName = "WineShopDev",
-  
+  [string]$ResourceGroupName,
+
   [Parameter(Mandatory = $true)]
-  [string]$TableName = "inventory",
-  
-  [Parameter(Mandatory = $true)]
-  [string]$SubscriptionId = "795e35a4-61a5-41ee-bfe5-0ece60bb7cdc"
+  [string]$TableName
 )
 
 function Insert-Row($table, [String]$partitionKey, [String]$rowKey, [int]$wineInStock, [string]$wineInfo, [string] $wineName, [string] $winePicture, [string] $winePrice)
@@ -23,11 +20,7 @@ function Insert-Row($table, [String]$partitionKey, [String]$rowKey, [int]$wineIn
   $result = $table.CloudTable.Execute([Microsoft.WindowsAzure.Storage.Table.TableOperation]::Insert($entity))
 }
 
-# logs in
-Login-AzureRmAccount
-
-# select subscription
-Select-AzureRmSubscription -SubscriptionId $SubscriptionId
+# login and sub selection is done by the azure powershell task
 
 $context = (Get-AzureRmStorageAccount -ResourceGroupName $ResourceGroupName -Name $StorageAccountName).Context
 
