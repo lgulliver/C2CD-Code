@@ -22,6 +22,10 @@ namespace WineStoreWeb.Data
                 throw new ArgumentException();
             }
 
+            if(!_endpoint.EndsWith(@"/", StringComparison.InvariantCulture)) {
+                _endpoint = _endpoint + @"/";
+            }
+
             _endpoint = endpoint;
             _password = password;
 

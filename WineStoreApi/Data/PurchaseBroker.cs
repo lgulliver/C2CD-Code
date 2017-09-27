@@ -17,6 +17,15 @@ namespace WineStoreApi.Data
 
         internal string CheckoutTrolley(string sessionId, string customerEMail, string sendGridKey, string trolleyEndpoint, string trolleyKey, string inventoryEndpoint, string inventoryKey)
         {
+            if(!trolleyEndpoint.EndsWith("/", StringComparison.InvariantCulture)) {
+                trolleyEndpoint = trolleyEndpoint + "/"; 
+            }
+
+            if (!inventoryEndpoint.EndsWith("/", StringComparison.InvariantCulture))
+            {
+                inventoryEndpoint = inventoryEndpoint + "/";
+            }
+
             // get everything in the trolley
             HttpClient client = new HttpClient();
 
