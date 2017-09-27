@@ -5,7 +5,6 @@ param (
   [Parameter(Mandatory = $true)]
   [string]$ResourceGroupName = "WineShopDev",
   
-  [Parameter(Mandatory = $true)]
   [string]$TableName = "inventory",
   
   [Parameter(Mandatory = $true)]

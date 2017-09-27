@@ -5,8 +5,7 @@ param (
   [Parameter(Mandatory = $true)]
   [string]$ResourceGroupName,
 
-  [Parameter(Mandatory = $true)]
-  [string]$TableName
+  [string]$TableName = "inventory"
 )
 
 function Insert-Row($table, [String]$partitionKey, [String]$rowKey, [int]$wineInStock, [string]$wineInfo, [string] $wineName, [string] $winePicture, [string] $winePrice)
