@@ -8,7 +8,7 @@ param (
   [string]$TableName = "inventory"
 )
 
-function Insert-Row($table, [String]$partitionKey, [String]$rowKey, [int]$wineInStock, [string]$wineInfo, [string] $wineName, [string] $winePicture, [string] $winePrice)
+function Insert-Row($table, [String]$partitionKey, [String]$rowKey, [int]$wineInStock, [string]$wineInfo, [string] $wineName, [string] $winePicture, [double] $winePrice)
 {
   $entity = New-Object "Microsoft.WindowsAzure.Storage.Table.DynamicTableEntity" $partitionKey, $rowKey
   $entity.Properties.Add("WineInStock", $wineInStock)

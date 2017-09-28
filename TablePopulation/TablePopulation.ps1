@@ -11,7 +11,7 @@ param (
   [string]$SubscriptionId = "795e35a4-61a5-41ee-bfe5-0ece60bb7cdc"
 )
 
-function Insert-Row($table, [String]$partitionKey, [String]$rowKey, [int]$wineInStock, [string]$wineInfo, [string] $wineName, [string] $winePicture, [string] $winePrice)
+function Insert-Row($table, [String]$partitionKey, [String]$rowKey, [int]$wineInStock, [string]$wineInfo, [string] $wineName, [string] $winePicture, [double] $winePrice)
 {
   $entity = New-Object "Microsoft.WindowsAzure.Storage.Table.DynamicTableEntity" $partitionKey, $rowKey
   $entity.Properties.Add("WineInStock", $wineInStock)
