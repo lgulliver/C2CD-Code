@@ -1,14 +1,14 @@
 param (
   [Parameter(Mandatory = $true)]
-  [string]$StorageAccountName = "dansinventorytest",
+  [string]$StorageAccountName,
   
   [Parameter(Mandatory = $true)]
-  [string]$ResourceGroupName = "WineShopDev",
+  [string]$ResourceGroupName,
   
   [string]$TableName = "inventory",
   
   [Parameter(Mandatory = $true)]
-  [string]$SubscriptionId = "795e35a4-61a5-41ee-bfe5-0ece60bb7cdc"
+  [string]$SubscriptionId = "000e00a0-00a0-00ee-bfe0-0ece00000cdc"
 )
 
 function Insert-Row($table, [String]$partitionKey, [String]$rowKey, [int]$wineInStock, [string]$wineInfo, [string] $wineName, [string] $winePicture, [double] $winePrice)
