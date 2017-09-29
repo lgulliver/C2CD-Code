@@ -1,14 +1,15 @@
 param (
   [Parameter(Mandatory = $true)]
-  [string]$StorageAccountName,
+  [string]$StorageAccountName = "wineinvstordev",
   
   [Parameter(Mandatory = $true)]
-  [string]$ResourceGroupName,
+  [string]$ResourceGroupName = "WineShop",
   
   [string]$TableName = "inventory",
   
-  [Parameter(Mandatory = $true)]
-  [string]$SubscriptionId = "000e00a0-00a0-00ee-bfe0-0ece00000cdc"
+  [string]$SubscriptionId = "795e35a4-61a5-41ee-bfe5-0ece60bb7cdc",
+
+  [switch]$CD = $false
 )
 
 function Insert-Row($table, [String]$partitionKey, [String]$rowKey, [int]$wineInStock, [string]$wineInfo, [string] $wineName, [string] $winePicture, [double] $winePrice)
@@ -19,14 +20,25 @@ function Insert-Row($table, [String]$partitionKey, [String]$rowKey, [int]$wineIn
   $entity.Properties.Add("WineName", $wineName)
   $entity.Properties.Add("WinePicture", $winePicture)
   $entity.Properties.Add("WinePrice", $winePrice)
-  $result = $table.CloudTable.Execute([Microsoft.WindowsAzure.Storage.Table.TableOperation]::Insert($entity))
+  try {
+    $result = $table.CloudTable.Execute([Microsoft.WindowsAzure.Storage.Table.TableOperation]::Insert($entity))
+  } catch {
+    Write-Host "Row" $partitionKey "|" $rowKey "not inserted, it may already exist" -ForegroundColor Yellow
+  }
 }
 
-# logs in
-Login-AzureRmAccount
+if(!$CD) {
+    # logs in
+    Login-AzureRmAccount
 
-# select subscription
-Select-AzureRmSubscription -SubscriptionId $SubscriptionId
+    if(($SubscriptionId -eq "") -or ($SubscriptionId -eq $null)) {
+        Write-Host "You are not running in CD mode, please specify your subscription ID"
+        $SubscriptionId = Read-Host
+    }
+
+    # select subscription
+    Select-AzureRmSubscription -SubscriptionId $SubscriptionId
+}
 
 $context = (Get-AzureRmStorageAccount -ResourceGroupName $ResourceGroupName -Name $StorageAccountName).Context
 
