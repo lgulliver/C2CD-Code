@@ -46,6 +46,8 @@ namespace WineStoreWeb
                 // disabling this while in test/dev
                 options.Cookie.HttpOnly = true;
             });
+
+            services.AddApplicationInsightsTelemetry(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
