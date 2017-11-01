@@ -35,7 +35,7 @@
 
 function AddToTrolley(typeAndIdString) {
     $.ajax({
-        url: ("/Store/AddToTrolley?typeAndIdString=" + typeAndIdString)})
+        url: ("/Store/AddToTrolley?typeAndIdString=" + typeAndIdString + "&randomNumber=" + Math.floor((Math.random() * 10000) + 1))})
 	.done(function( data ) {
         document.getElementById('trolleyItems').innerHTML = data;
     });
