@@ -21,7 +21,6 @@ namespace WineStoreInventory
             WebHost.CreateDefaultBuilder(args)
                 .UseApplicationInsights()
                 .UseStartup<Startup>()
-                .UseApplicationInsights()
                 .Build();
     }
 }

@@ -21,7 +21,6 @@ namespace WineStoreTrolley
             WebHost.CreateDefaultBuilder(args)
                 .UseApplicationInsights()
                 .UseStartup<Startup>()
-                .UseApplicationInsights()
                 .Build();
     }
 }
