@@ -20,7 +20,6 @@ namespace WineStoreApi
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .UseApplicationInsights()
                 .Build();
     }
 }

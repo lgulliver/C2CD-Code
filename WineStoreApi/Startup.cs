@@ -34,7 +34,6 @@ namespace WineStoreApi
             services.Configure<PurchaseOptions>(Configuration);
 
             services.AddOptions();
-            services.AddApplicationInsightsTelemetry(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
