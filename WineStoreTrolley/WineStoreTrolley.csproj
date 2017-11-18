@@ -4,8 +4,6 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
     <UserSecretsId>786c3392-729a-49e9-a739-b62a67c57ef9</UserSecretsId>
-    <ApplicationInsightsResourceId>/subscriptions/795e35a4-61a5-41ee-bfe5-0ece60bb7cdc/resourcegroups/WineShop/providers/microsoft.insights/components/winetroservdevai</ApplicationInsightsResourceId>
-    <ApplicationInsightsAnnotationResourceId>/subscriptions/795e35a4-61a5-41ee-bfe5-0ece60bb7cdc/resourcegroups/WineShop/providers/microsoft.insights/components/winetroservdevai</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
   </ItemGroup>
 
@@ -37,9 +34,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WineStoreShared\WineStoreShared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 </Project>

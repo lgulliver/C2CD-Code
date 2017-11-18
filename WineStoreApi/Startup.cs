@@ -33,8 +33,6 @@ namespace WineStoreApi
             services.Configure<APIOptions>(Configuration);
             services.Configure<PurchaseOptions>(Configuration);
 
-            services.AddApplicationInsightsTelemetry(Configuration);
-
             services.AddOptions();
             services.AddApplicationInsightsTelemetry(Configuration);
         }
