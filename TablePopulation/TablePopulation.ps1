@@ -7,7 +7,7 @@ param (
   
   [string]$TableName = "inventory",
   
-  [string]$SubscriptionId = "795e35a4-61a5-41ee-bfe5-0ece60bb7cdc",
+  [string]$SubscriptionId,
 
   [switch]$CD = $false
 )
@@ -21,7 +21,7 @@ function Insert-Row($table, [String]$partitionKey, [String]$rowKey, [int]$wineIn
   $entity.Properties.Add("WinePicture", $winePicture)
   $entity.Properties.Add("WinePrice", $winePrice)
   try {
-    $result = $table.CloudTable.Execute([Microsoft.WindowsAzure.Storage.Table.TableOperation]::Insert($entity))
+    $result = $table.Execute([Microsoft.WindowsAzure.Storage.Table.TableOperation]::Insert($entity))
   } catch {
     Write-Host "Row" $partitionKey "|" $rowKey "not inserted, it may already exist" -ForegroundColor Yellow
   }
@@ -41,14 +41,19 @@ if(!$CD) {
 }
 
 $context = (Get-AzureRmStorageAccount -ResourceGroupName $ResourceGroupName -Name $StorageAccountName).Context
+$connectionString = $context.ConnectionString
+
 
 # check if table exists, if not create it
 $table = Get-AzureStorageTable $TableName -Context $context -ErrorAction Ignore
 if ($table -eq $null)
 {
     New-AzureStorageTable $TableName -Context $context
-    $table = Get-AzureStorageTable $TableName -Context $context
 }
+
+$cloudAccount = [Microsoft.WindowsAzure.Storage.CloudStorageAccount]::Parse($connectionString)
+$tableClient = $cloudAccount.CreateCloudTableClient()
+$table = $tableClient.GetTableReference($TableName)
 
 Insert-Row -table $table -partitionKey "Red" -rowKey "0" -wineInStock 10 -winePrice 13.95 -wineName "Chateauneuf Du Pape Les Courlandes 75cl" -winePicture "https://wine-searcher1.freetls.fastly.net/images/labels/91/53/jacques-charlet-chateauneuf-du-pape-les-clefs-d-or-rhone-france-10679153.jpg" -wineInfo "The village of Chateauneuf du Pape in the southern Rhone valley is named after the new ch�teau built by the Popes as a summer residence in the 14th century. Its vineyards, first planted in Roman times, and covered with rolled pebbles, are renowned for their rich, ripe, generous wines"
 Insert-Row -table $table -partitionKey "Red" -rowKey "1" -wineInStock 7 -winePrice 12.90 -wineName "Journeys End Bluegum Merlot 75cl" -winePicture "http://www.buywine.co.za/wp-content/uploads/2015/01/Journeys-End.png" -wineInfo "Mineral rich, granite soils, cool coastal breezes and long sunny days have played their part in delivering healthy concentrated berries, handpicked and carefully selected to provide the perfect foundation for this wine. Following fermentation in open fermenters, this Merlot was subsequently allowed to age for 18 months in 3001 French oak barrel for added complexity. It is an elegant, soft, fruit driven wine that will drink well now with added cellaring potential of 5-10 years."
